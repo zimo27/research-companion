@@ -1,0 +1,9 @@
+node_modules/
+.env
+.env.*
+!.env.example
+.pi/
+data/
+outputs/
+*.log
+.DS_Store

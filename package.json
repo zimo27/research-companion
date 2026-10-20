@@ -1,0 +1,24 @@
+{
+  "name": "research-companion",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A personal research and reproducible experimentation assistant built on Pi.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.19.0"
+  },
+  "scripts": {
+    "start": "node src/cli.js",
+    "test": "node --test",
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@earendil-works/pi-coding-agent": "1.3.0",
+    "@earendil-works/pi-ai": "1.3.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "@types/node": "^22.19.0"
+  }
+}
