@@ -29,6 +29,27 @@ Paper metadata search uses Crossref without credentials. Search results are lead
 this first version does not include full-page browsing or PDF extraction, so it must
 not claim to have read full sources. You can provide local source documents as text.
 
+## Subagents and model routing
+
+Ask the assistant to delegate source discovery to a **researcher**, synthesis to
+an **analyst**, or independent critique to a **reviewer**. Each child has a separate
+conversation and search-only tools. Up to three children may run concurrently.
+Their results and usage are saved locally; children cannot spawn more agents.
+
+For different models by task, create a private `routing.json` using the
+[configuration example](examples/routing.json), replace its placeholder model IDs,
+and run:
+
+```sh
+npm start -- --model companion/auto
+```
+
+The router selects fast, deep or code tiers and keeps follow-up tool calls on the
+same model. A leading `[route:deep]` (or `fast`/`code`) overrides classification.
+Without a routing config, children inherit a selected physical parent model.
+See [research, setup and limits](docs/subagents-and-routing.md) and the
+[changelog](CHANGELOG.md).
+
 ## Experiments
 
 Pull a suitable image yourself, then ask the assistant to run a small experiment:
@@ -48,7 +69,7 @@ experiment runner, not GPU provisioning or a hostile-code security boundary.
 
 ## Personal data
 
-Memory, reports and experiment records live in `~/.research-companion/`, outside
+Memory, reports, delegation results and experiment records live in `~/.research-companion/`, outside
 this repository. Override with `RESEARCH_COMPANION_HOME`. Records are readable JSON.
 Ask the agent to list/forget memories or edit the records directly while it is idle.
 Confirmed preferences and tentative observations are stored separately by status.
@@ -57,7 +78,7 @@ Selected memory and source content may be sent to your chosen model provider.
 Do not commit personal data or credentials. No personal data is included here.
 
 The launcher starts Pi in the private data directory with only its built-in `read`
-tool plus this project's tools. Passing Pi flags can change that tool selection.
+tool plus this project's tools, including delegation. Passing Pi flags can change that tool selection.
 This limits ordinary operations, but is not filesystem isolation: read and other
 explicitly enabled extensions still run with your user's permissions. Automatic
 extension, MCP, skill, prompt and context-file discovery is disabled by the launcher.
@@ -71,12 +92,13 @@ npm run check
 
 `src/extension.ts` defines Pi tools and research instructions; `src/store.js` owns
 local records; `src/experiment.js` owns the Docker runner. Tests use temporary data
-and do not call a model. CI checks types and tests on Node 22.
+and do not call paid models. A local mock endpoint exercises real Pi processes.
+CI checks types and tests on Node 22.
 
 ## Scope
 
 This first version includes persistent memory, paper/web search, source-linked
-briefs, history, and bounded experiments. It does not include unattended schedules,
+briefs, history, bounded experiments, specialist subagents and configurable model routing. It does not include unattended schedules,
 WeChat, autonomous messaging, GPU jobs, or a web UI. Next: full-source retrieval,
 claim-to-source validation, experiment workspaces and research evaluations.
 

@@ -15,6 +15,6 @@ test('Pi loads the extension and registers every workflow tool', async () => {
     assert.deepEqual(loaded.errors, []);
     assert.equal(loaded.extensions.length, 1);
     const names = [...loaded.extensions[0].tools.keys()];
-    assert.deepEqual(names.sort(), ['experiment_run', 'memory_forget', 'memory_list', 'memory_save', 'research_history', 'research_report', 'research_search']);
+    assert.deepEqual(names.sort(), ['delegate_task', 'experiment_run', 'memory_forget', 'memory_list', 'memory_save', 'research_history', 'research_report', 'research_search']);
   } finally { rmSync(dir, { recursive: true, force: true }); }
 });

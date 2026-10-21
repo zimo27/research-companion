@@ -4,7 +4,7 @@ import { join } from 'node:path';
 import { randomUUID } from 'node:crypto';
 export const home = () => process.env.RESEARCH_COMPANION_HOME || join(homedir(), '.research-companion');
 export function bucket(kind) {
-  if (!['memory', 'reports', 'experiments'].includes(kind)) throw new Error('Invalid collection');
+  if (!['memory', 'reports', 'experiments', 'delegations'].includes(kind)) throw new Error('Invalid collection');
   const dir = join(home(), kind); mkdirSync(dir, { recursive: true, mode: 0o700 }); return dir;
 }
 export function save(kind, value) {
